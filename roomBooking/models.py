@@ -1,22 +1,28 @@
 from django.db import models
-from django.contrib.auth.models import User
- 
+from django.contrib.auth.models import AbstractUser
 
- #Make sure to make the databases information correct
-class ROOMS(models.Model):
-    id = models.AutoField(primary_key=True,)
-    capacity = models.CharField(max_length=10)
+class User(AbstractUser):
+    first_name = models.CharField(max_length=25, blank=True, null=True)  
+    last_name = models.CharField(max_length=25, blank=True, null=True)  
+    email = models.EmailField(unique=True)  
 
-class ROOMBOOKING(models.Model):
-    id = models.AutoField(primary_key=True,auto_created=True)
-    name = models.CharField(max_length=25)
-    date = models.DateTimeField()
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.email  
 
-class USERS(models.Model):
-    id = models.AutoField(primary_key=True,auto_created=True)
-    firstname = models.CharField(max_length=25)
-    surname = models.CharField(max_length=25)
-    username = models.CharField(max_length=25)
-    email = models.CharField(max_length=25)
-    password = models.CharField(max_length=25)
+class Room(models.Model):
+    capacity = models.IntegerField()
+
+    def __str__(self):
+        return f"Room {self.id} (Capacity: {self.capacity})"
+
+class RoomBooking(models.Model):
+    name = models.CharField(max_length=100)
+    start_datetime = models.DateTimeField()
+    end_datetime = models.DateTimeField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, blank=True)  # Allow nulls to avoid migration issues
+
+    def __str__(self):
+        return f"{self.name} by {self.user.username}"
+
+
