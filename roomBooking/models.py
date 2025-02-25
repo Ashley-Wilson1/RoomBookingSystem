@@ -1,13 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
-class User(AbstractUser):
-    first_name = models.CharField(max_length=25, blank=True, null=True)  
-    last_name = models.CharField(max_length=25, blank=True, null=True)  
-    email = models.EmailField(unique=True)  
-
-    def __str__(self):
-        return self.email  
 
 class Room(models.Model):#maybe give int pk for custom rooms
     number = models.IntegerField(unique=True)

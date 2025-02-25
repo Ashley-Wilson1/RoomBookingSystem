@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'roomBooking'
 ]
 
-AUTH_USER_MODEL = 'roomBooking.User'
+
 
 
 MIDDLEWARE = [
