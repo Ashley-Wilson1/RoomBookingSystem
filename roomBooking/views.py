@@ -10,11 +10,11 @@ class RoomList(ListView):
 class BookingList(ListView):
     model=RoomBooking
     def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_staff:#super user also staff
+        if self.request.user.is_staff: #super user also staff
             booking_list= RoomBooking.objects.all()
             return booking_list
         else:
-            booking_list = RoomBooking.objects.filter(user=self.request.user)
+            booking_list = RoomBooking.objects.filter(user=self.request.user) # only returns users bookings
             return booking_list
 
 class BookingView(FormView):

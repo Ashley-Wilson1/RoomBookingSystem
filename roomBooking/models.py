@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ValidationError
 
 
-class Room(models.Model):#maybe give int pk for custom rooms
+class Room(models.Model): # automatic pk given 
     number = models.IntegerField(unique=True)
     capacity = models.IntegerField()
 
@@ -30,6 +31,7 @@ class RoomBooking(models.Model):
     def save(self, *args, **kwargs):
         self.clean()  # Run validation before saving
         super().save(*args, **kwargs)
+        
     def __str__(self):
         user_name = self.user.first_name if self.user.first_name else self.user.email
         return f"{user_name} has booked Room {self.room.number} from {self.start_datetime} to {self.end_datetime}"
