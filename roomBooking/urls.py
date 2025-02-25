@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.shortcuts import redirect
 from .views import RoomList,BookingList,BookingView, cancel_booking
 
 app_name = "roomBooking"
+
+def redirect_to_login(request):
+    return redirect('account_login')  # 'account_login' is the default login URL in allauth
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('room_list/', RoomList.as_view(), name ='RoomList'),
@@ -26,4 +31,5 @@ urlpatterns = [
     path('book/', BookingView.as_view(), name = 'booking_view'),
     path('accounts/', include('allauth.urls')),
     path('cancel/<int:booking_id>/', cancel_booking, name='cancel_booking'),
+    path('', redirect_to_login)
 ]

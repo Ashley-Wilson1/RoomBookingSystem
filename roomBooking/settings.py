@@ -124,6 +124,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 ACCOUNT_EMAIL_REQUIRED = True 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_SIGNUP_REDIRECT_URL = "/booking_list/"  # After sign-up
+LOGIN_REDIRECT_URL = "/booking_list/"  # After login
+
+ACCOUNT_LOGOUT_REDIRECT_URL = "/accounts/login"  # Redirect to the booking list after logout
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 

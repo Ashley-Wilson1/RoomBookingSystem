@@ -55,10 +55,15 @@ class BookingView(FormView):
         return HttpResponse(f"Booking confirmed: Room {room.number} from {data['start_datetime']} to {data['end_datetime']}")
     
 def cancel_booking(request, booking_id):
-    booking = get_object_or_404(RoomBooking, id=booking_id, user=request.user)
-
     if request.method == "POST":
+        if request.user.is_superuser:
+            # Superuser can delete any booking
+            booking = get_object_or_404(RoomBooking, id=booking_id)
+        else:
+            # Regular users can only delete their own bookings
+            booking = get_object_or_404(RoomBooking, id=booking_id, user=request.user)
+
         booking.delete()
         return redirect('BookingList')  # Redirect to the booking list page
 
-    return redirect('BookingList')  # If not POST, just return to the list
+    return redirect('BookingList')  # Redirect if accessed without POST
