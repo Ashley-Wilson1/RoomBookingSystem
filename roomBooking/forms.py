@@ -11,3 +11,4 @@ class AvailabilityForm(forms.Form):  # Fix typo (was AvailabiltyForm)
     start_datetime = forms.DateTimeField(required=True,input_formats=["%y-%m-%dT%H:%M",])
     end_datetime = forms.DateTimeField(required=True,input_formats=["%y-%m-%dT%H:%M",])
 
+    want_another_room = forms.BooleanField(required=False, initial=False, label="Allow automatic booking of another room if requested room is unavailable")

@@ -8,9 +8,9 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email  
-AUTH_USER_MODEL = "roomBooking.User"
+
 class Room(models.Model):#maybe give int pk for custom rooms
-    number = models.IntegerField()
+    number = models.IntegerField(unique=True)
     capacity = models.IntegerField()
 
     def __str__(self):
@@ -23,6 +23,20 @@ class RoomBooking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
     room = models.ForeignKey(Room, on_delete=models.CASCADE)  
 
+    def clean(self):
+        # Prevent double booking
+        overlapping_bookings = RoomBooking.objects.filter(
+            room=self.room,
+            start_datetime__lt=self.end_datetime,  
+            end_datetime__gt=self.start_datetime  
+        ).exclude(id=self.id)  # Exclude self if updating
+
+        if overlapping_bookings.exists():
+            raise ValidationError("This room is already booked for the selected time.")
+
+    def save(self, *args, **kwargs):
+        self.clean()  # Run validation before saving
+        super().save(*args, **kwargs)
     def __str__(self):
         user_name = self.user.first_name if self.user.first_name else self.user.email
         return f"{user_name} has booked Room {self.room.number} from {self.start_datetime} to {self.end_datetime}"
