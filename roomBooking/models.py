@@ -8,7 +8,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email  
-
+AUTH_USER_MODEL = "roomBooking.User"
 class Room(models.Model):#maybe give int pk for custom rooms
     number = models.IntegerField()
     capacity = models.IntegerField()
@@ -24,6 +24,7 @@ class RoomBooking(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)  
 
     def __str__(self):
-        return f"{self.user.first_name} has booked Room {self.room.number} from {self.start_datetime} to {self.end_datetime}"
+        user_name = self.user.first_name if self.user.first_name else self.user.email
+        return f"{user_name} has booked Room {self.room.number} from {self.start_datetime} to {self.end_datetime}"
 
 
