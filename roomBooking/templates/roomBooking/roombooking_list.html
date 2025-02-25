@@ -7,8 +7,12 @@
 </head>
 <body>
     
-    {%for booking in roombooking_list%}
-    <h2>{{booking}}</h2>
-    {%endfor%}
+    {% for booking in roombooking_list %}
+        <h2>{{ booking }}</h2>
+        <form action="{% url 'cancel_booking' booking.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Cancel</button>
+        </form>
+    {% endfor %}
 </body>
 </html>

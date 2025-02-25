@@ -3,6 +3,8 @@ from django.views.generic import ListView, FormView
 from .models import Room, RoomBooking
 from .forms import AvailabilityForm
 from roomBooking.booking_function.availabilty import check_availability
+from django.shortcuts import get_object_or_404, redirect
+
 
 class RoomList(ListView):
     model=Room
@@ -51,3 +53,12 @@ class BookingView(FormView):
             end_datetime=data['end_datetime']
         )
         return HttpResponse(f"Booking confirmed: Room {room.number} from {data['start_datetime']} to {data['end_datetime']}")
+    
+def cancel_booking(request, booking_id):
+    booking = get_object_or_404(RoomBooking, id=booking_id, user=request.user)
+
+    if request.method == "POST":
+        booking.delete()
+        return redirect('BookingList')  # Redirect to the booking list page
+
+    return redirect('BookingList')  # If not POST, just return to the list
