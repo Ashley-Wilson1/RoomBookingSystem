@@ -2,7 +2,7 @@ import os
 import django
 from django.contrib.auth import get_user_model
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "roomBooking.settings")  # Replace with your actual project name
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "roomBooking.settings")  
 django.setup()
 
 User = get_user_model()

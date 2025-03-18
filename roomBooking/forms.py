@@ -1,5 +1,7 @@
 from django import forms
 from .models import Room
+
+
 # how the booking form will look
 class AvailabilityForm(forms.Form):  
     room_number = forms.ChoiceField(choices=[],required=True)
@@ -16,3 +18,4 @@ class AvailabilityForm(forms.Form):
         }))
     
     want_another_room = forms.BooleanField(required=False, initial=False, label="Allow automatic booking of another room if requested room is unavailable")
+
