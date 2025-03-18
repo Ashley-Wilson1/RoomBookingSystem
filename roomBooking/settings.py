@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from roomBooking.custom_forms import get_signup_form
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,10 +34,10 @@ ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0"]
 
 INSTALLED_APPS = [
     # The following apps are required:
-    'roomBooking',
+    'roomBooking.apps.RoomBookingConfig',
     'allauth',
     'allauth.account',
-
+    'django.contrib.sites', 
     # Optional -- requires install using `django-allauth[socialaccount]`.
     'allauth.socialaccount',
     'django.contrib.admin',
@@ -96,7 +97,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     
 ]
-
+ACCOUNT_SIGNUP_FORM_CLASS = 'roomBooking.custom_forms.get_signup_form'
 WSGI_APPLICATION = 'roomBooking.wsgi.application'
 
 
@@ -129,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 # settings.py
-ACCOUNT_SIGNUP_FORM_CLASS = 'roomBooking.custom_forms.CustomSignupForm'
+
 
 ACCOUNT_EMAIL_REQUIRED = True 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

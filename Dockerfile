@@ -21,9 +21,8 @@ RUN adduser --disabled-password --gecos "" --home "/nonexistent" --shell "/sbin/
 # Copy the entire project into the container
 COPY . .
 
-# Create database folder, set permissions so appuser can write
-RUN mkdir -p /app/data && chown -R appuser:appuser /app/data && chmod 777 /app/data
-RUN touch /app/data/db.sqlite3 && chmod 777 /app/data/db.sqlite3
+# Set permissions for db.sqlite3 to ensure write access
+RUN chmod 777 /app/db.sqlite3
 
 # Expose the port that Django will use
 EXPOSE 9000
@@ -31,5 +30,5 @@ EXPOSE 9000
 # Switch to non-root user
 USER appuser
 
-# Run the application on 0.0.0.0:9000 so it’s accessible externally
+# Command to run on container startup:
 CMD ["sh", "-c", "python manage.py migrate && python create_superuser.py && python manage.py runserver 0.0.0.0:9000"]
