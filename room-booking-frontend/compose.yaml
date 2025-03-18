@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+   server:
+      build:
+         context: .
+      environment:
+         NODE_ENV: development
+      ports:
+         - 3000:3000
+      volumes:
+         - .:/usr/src/app
+         - /usr/src/app/node_modules # Prevents overwriting node_modules
+      stdin_open: true # Keeps the container open
+      tty: true # Allocates a TTY for proper logging
+      command: npm start
